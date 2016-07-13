@@ -1,6 +1,8 @@
 FROM php:5.6-fpm
 
 # Install env
+ENV  WWWROOT /wwwroot
+ENV  NFS_SERVER 10.171.76.236
 #ADD sources.list    /etc/apt/sources.list
 RUN apt-get update && apt-get install -y \
         git \
@@ -10,6 +12,8 @@ RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng12-dev \
+        vim \
+        nfs-common \
         && rm -r /var/lib/apt/lists/*
 
 
@@ -63,4 +67,6 @@ WORKDIR /opt
 RUN usermod -u 1000 www-data
 
 EXPOSE 9000
-VOLUME ["/opt"]
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+VOLUME ["/wwwroot"]

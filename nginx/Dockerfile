@@ -2,6 +2,7 @@ FROM nginx:1.9
 
 ENV  SITE_DOMAIN jr1.local
 ENV  WWWROOT /wwwroot
+ENV  NFS_SERVER 10.171.76.236
 ADD  nginx.conf      /etc/nginx/nginx.conf
 ADD  *.sh /
 RUN  chmod +x /*.sh
