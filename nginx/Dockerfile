@@ -6,6 +6,9 @@ ADD  nginx.conf      /etc/nginx/nginx.conf
 ADD  *.sh /
 RUN  chmod +x /*.sh
 RUN  mkdir -p /etc/nginx/sites-template
+RUN  yum update && && apt-get install -y \
+                                    vim \
+                                    nfs-common 
 ADD  sites-templates/*    /etc/nginx/sites-templates/
 VOLUME ["/wwwroot"]
 EXPOSE 80 443
