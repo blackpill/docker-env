@@ -68,5 +68,6 @@ RUN usermod -u 1000 www-data
 
 EXPOSE 9000
 ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 VOLUME ["/wwwroot"]
