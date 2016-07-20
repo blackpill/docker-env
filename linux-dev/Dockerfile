@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
          subversion \
          wget \
          nodejs \
+         openssh-server  \
          && rm -r /var/lib/apt/lists/*
 
 RUN npm install -g gulp
