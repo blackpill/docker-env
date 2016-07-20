@@ -13,9 +13,11 @@ RUN apt-get update && apt-get install -y \
          && rm -r /var/lib/apt/lists/*
 
 RUN npm install -g gulp
-# Write Permission
+RUN useradd -m -d /home/dev dev
+RUN echo 'dev:testdev' | chpasswd
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
+EXPOSE 22
 VOLUME ["/wwwroot"]
