@@ -12,10 +12,17 @@ RUN apt-get update && apt-get install -y \
          openssh-server  \
          && rm -r /var/lib/apt/lists/*
 
+# install gulp
 RUN npm install -g gulp
+
+
+# install phpunit
+ADD phpunit-5.4.6.phar /usr/bin/phpunit
+RUN chmod +x /usr/bin/phpunit
+
+#SSH service
 RUN useradd -m -d /home/dev dev
 RUN echo 'dev:testdev' | chpasswd
-
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
