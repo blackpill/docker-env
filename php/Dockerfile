@@ -2,6 +2,7 @@ FROM php:5.6-fpm
 
 # Install env
 ENV  WWWROOT /wwwroot
+ENV  USE_NFS 0
 ENV  NFS_SERVER 10.171.76.236
 ENV  NFS_DIR /wwwroot
 #ADD sources.list    /etc/apt/sources.list
