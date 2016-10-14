@@ -1,4 +1,4 @@
-FROM blackpill/php
+FROM blackpill/php:thinkphp5
 
 ENV  WWWROOT /wwwroot
 ENV  NFS_SERVER 10.171.76.236
