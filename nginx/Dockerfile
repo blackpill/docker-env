@@ -2,6 +2,7 @@ FROM nginx:1.9
 
 ENV  SITE_DOMAIN jr1.local
 ENV  WWWROOT /wwwroot
+ENV  USE_NFS 0
 ENV  NFS_SERVER 10.171.76.236
 ENV  NFS_DIR /wwwroot
 ADD  nginx.conf      /etc/nginx/nginx.conf
