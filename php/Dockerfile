@@ -62,7 +62,7 @@ RUN chmod 755 /usr/local/bin/composer
 ADD dos2unix    /usr/bin/dos2unix
 RUN chmod 755 /usr/bin/dos2unix
 RUN pear install PHP_CodeSniffer-2.6.1
-RUN phpcs --config-set default_standard Zend
+RUN phpcs --config-set default_standard PSR2
 WORKDIR /opt
 
 # Write Permission

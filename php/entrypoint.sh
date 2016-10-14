@@ -10,4 +10,6 @@ if [ "$USE_NFS" = "1" ]; then
 else
     echo Use VFS
 fi
+cd $WWWROOT
+composer require topthink/think-testing
 php-fpm
