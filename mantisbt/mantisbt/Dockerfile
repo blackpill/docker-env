@@ -9,5 +9,5 @@ ADD  substitute-env-vars.sh /substitute-env-vars.sh
 ADD  config_inc.php.tmpl /var/www/html/config/config_inc.php.tmpl
 RUN chmod +x /render-templates.sh
 RUN chmod +x /substitute-env-vars.sh
-RUN /render-templates.sh /var/www/html/config /var/www/html/config
+#RUN /render-templates.sh /var/www/html/config /var/www/html/config
 EXPOSE 80
