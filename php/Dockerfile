@@ -66,7 +66,7 @@ RUN phpcs --config-set default_standard Zend
 WORKDIR /opt
 
 # Write Permission
-RUN usermod -u 1000 www-data
+RUN usermod -u 33 www-data
 
 EXPOSE 9000
 ADD entrypoint.sh /entrypoint.sh
