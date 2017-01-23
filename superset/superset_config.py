@@ -1,0 +1,57 @@
+"""The main config file for Superset
+
+All configuration in this file can be overridden by providing a superset_config
+in your PYTHONPATH as there is a ``from superset_config import *``
+at the end of this file.
+"""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+import imp
+import json
+import os
+
+from dateutil import tz
+from flask_appbuilder.security.manager import AUTH_DB
+
+#BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+#DATA_DIR = os.path.join(os.path.expanduser('~'), '.superset')
+DATA_DIR = "/ssdata"
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
+
+# The SQLAlchemy connection string.
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATA_DIR, 'superset.db')
+# SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
+# SQLALCHEMY_DATABASE_URI = 'postgresql://root:password@localhost/myapp'
+
+
+# ---------------------------------------------------
+# Enable Time Rotate Log Handler
+# ---------------------------------------------------
+# LOG_LEVEL = DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+ENABLE_TIME_ROTATE = False
+TIME_ROTATE_LOG_LEVEL = 'DEBUG'
+FILENAME = os.path.join(DATA_DIR, 'superset.log')
+ROLLOVER = 'midnight'
+INTERVAL = 1
+BACKUP_COUNT = 30
+
+# Default celery config is to use SQLA as a broker, in a production setting
+# you'll want to use a proper broker as specified here:
+# http://docs.celeryproject.org/en/latest/getting-started/brokers/index.html
+"""
+# Example:
+class CeleryConfig(object):
+  BROKER_URL = 'sqla+sqlite:///celerydb.sqlite'
+  CELERY_IMPORTS = ('superset.sql_lab', )
+  CELERY_RESULT_BACKEND = 'db+sqlite:///celery_results.sqlite'
+  CELERY_ANNOTATIONS = {'tasks.add': {'rate_limit': '10/s'}}
+CELERY_CONFIG = CeleryConfig
+"""
+CELERY_CONFIG = None
+SQL_CELERY_DB_FILE_PATH = os.path.join(DATA_DIR, 'celerydb.sqlite')
+SQL_CELERY_RESULTS_DB_FILE_PATH = os.path.join(DATA_DIR, 'celery_results.sqlite')
