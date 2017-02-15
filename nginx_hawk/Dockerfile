@@ -4,7 +4,7 @@ RUN  apt-get update && apt-get install -y \
                                     nfs-common \
 									subversion
 ENV  SITE_DOMAIN jr1.local
-MKDIR /wwwroot
+RUN  mkdir -p /wwwroot
 ENV  WWWROOT /wwwroot
 ENV  USE_NFS 0
 ENV  NFS_SERVER 10.171.76.236
