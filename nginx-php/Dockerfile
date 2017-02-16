@@ -2,9 +2,10 @@ FROM php:5.6-fpm
 #nginx
 ENV NGINX_VERSION 1.10.3-1~jessie
 
+ADD sources.list    /etc/apt/sources.list
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-	&& echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-	&& apt-get update \
+    && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+    && apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
 						nginx=${NGINX_VERSION} \
@@ -14,6 +15,15 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 						nginx-module-perl \
 						nginx-module-njs \
 						gettext-base \
+						git \
+                        libgearman-dev \
+						libmemcached-dev \
+						libmcrypt-dev \
+						libfreetype6-dev \
+						libjpeg62-turbo-dev \
+						libpng12-dev \
+						vim \
+						nfs-common \
 	&& rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
@@ -29,18 +39,6 @@ ENV  WWWROOT /wwwroot
 ENV  USE_NFS 0
 ENV  NFS_SERVER 10.171.76.236
 ENV  NFS_DIR /wwwroot
-#ADD sources.list    /etc/apt/sources.list
-RUN apt-get update && apt-get install -y \
-        git \
-        libgearman-dev \
-        libmemcached-dev \
-        libmcrypt-dev \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng12-dev \
-        vim \
-        nfs-common \
-        && rm -r /var/lib/apt/lists/*
 
 
 # Install PHP extensions
