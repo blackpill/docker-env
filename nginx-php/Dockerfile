@@ -100,7 +100,7 @@ RUN  mkdir -p /etc/nginx/sites-template
 
 ADD  sites-templates/*    /etc/nginx/sites-templates/
 
-
+VOLUME ["/localroot"]
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
