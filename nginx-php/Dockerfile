@@ -84,7 +84,7 @@ RUN chmod 755 /usr/local/bin/composer
 # PHP CodeSniffer
 ADD dos2unix    /usr/bin/dos2unix
 RUN chmod 755 /usr/bin/dos2unix
-RUN pear install PHP_CodeSniffer-2.6.1
+RUN pear install PHP_CodeSniffer
 RUN phpcs --config-set default_standard Zend
 WORKDIR /opt
 
