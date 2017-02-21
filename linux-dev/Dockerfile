@@ -4,6 +4,7 @@ ENV  WWWROOT /wwwroot
 ENV  NFS_SERVER 10.171.76.236
 ENV  NFS_DIR /wwwroot
 
+ADD sources.list    /etc/apt/sources.list
 RUN curl -sL https://deb.nodesource.com/setup_5.x | bash -
 RUN apt-get update && apt-get install -y \
          subversion \
