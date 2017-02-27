@@ -52,9 +52,9 @@ COPY redis.tgz /home/redis.tgz
 #COPY cphalcon.tgz /home/cphalcon.tgz
 
 RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include/ \
-        && docker-php-ext-install bcmath \
-        && docker-php-ext-install zip \
         && docker-php-ext-install gd \
+		&& docker-php-ext-install bcmath \
+        && docker-php-ext-install zip \
         && docker-php-ext-install mbstring \
         && docker-php-ext-install mcrypt \
         && docker-php-ext-install mysql \
