@@ -1,8 +1,9 @@
 FROM voduytuan/jenkins-php-docker
-
+ADD sources.list    /etc/apt/sources.list
 USER root
 RUN apt-get update && apt-get install -y \
          libxslt-dev \
+		 sudo \
          && rm -r /var/lib/apt/lists/*
 
 # PHPdox
@@ -24,4 +25,9 @@ RUN chmod +x /usr/bin/docker
 RUN chmod 755 /usr/bin/phpdox
 
 EXPOSE 8080
+USER jenkins
+ADD entrypoint.sh /entrypoint.sh
+USER root
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 USER jenkins
