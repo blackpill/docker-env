@@ -1,0 +1,12 @@
+server {
+    listen 80 default;
+    index index.html index.htm;
+    server_name ${SITE_DOMAIN};
+
+    set $myroot ${WWWROOT};
+    root $myroot;
+    index index.html index.htm;
+    location / {     
+        try_files $uri $uri/ /index.html;
+    }
+}
