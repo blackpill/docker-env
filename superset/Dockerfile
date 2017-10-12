@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
 		 sudo 
 COPY node-v6.11.4-linux-x64.tar.xz /opt/node-v6.11.4-linux-x64.tar.xz
 RUN xz -d /opt/node-v6.11.4-linux-x64.tar.xz
-RUN tar xvf /opt/node-v6.11.4-linux-x64.tar
+RUN cd /opt && tar xvf /opt/node-v6.11.4-linux-x64.tar
 RUN /opt/node-v6.11.4-linux-x64/bin/npm install -g yarn
 RUN cd /usr/local/lib/python3.5/dist-packages/superset/static/assets \
 	&& /opt/node-v6.11.4-linux-x64/bin/yarn 
