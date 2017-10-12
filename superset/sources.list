@@ -1,0 +1,6 @@
+deb http://mirrors.aliyun.com/debian stretch main
+deb http://mirrors.aliyun.com/debian stretch-updates main
+
+deb http://deb.debian.org/debian stretch main
+deb http://deb.debian.org/debian stretch-updates main
+deb http://security.debian.org stretch/updates main
