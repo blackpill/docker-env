@@ -18,6 +18,10 @@ RUN  chmod +x /*.sh
 
 VOLUME ["/ssdata"]
 EXPOSE 8088
+#set timezone
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 USER superset
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["superset", "runserver"]
