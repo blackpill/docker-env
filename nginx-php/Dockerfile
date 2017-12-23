@@ -50,7 +50,7 @@ ENV  NFS_DIR /wwwroot
 #COPY gearman.tgz /home/gearman.tgz
 COPY redis.tgz /home/redis.tgz
 #COPY msgpack.tgz /home/msgpack.tgz
-#COPY xdebug.tgz /home/xdebug.tgz
+COPY xdebug.tgz /home/xdebug.tgz
 #COPY memcache.tgz /home/memcache.tgz
 #COPY xhprof.tgz /home/xhprof.tgz
 #COPY cphalcon.tgz /home/cphalcon.tgz
@@ -71,7 +71,7 @@ RUN pecl install /home/redis.tgz && echo "extension=redis.so" > /usr/local/etc/p
 #         && pecl install /home/msgpack.tgz && echo "extension=msgpack.so" > /usr/local/etc/php/conf.d/msgpack.ini \
 #         && pecl install /home/memcache.tgz && echo "extension=memcache.so" > /usr/local/etc/php/conf.d/memcache.ini \
 #         && pecl install /home/xhprof.tgz && echo "extension=xhprof.so" > /usr/local/etc/php/conf.d/xhprof.ini \
-#         && pecl install /home/xdebug.tgz && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
+         && pecl install /home/xdebug.tgz && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
 # RUN cd /home \
 #     && tar -xvf cphalcon.tgz \
 #     && mv cphalcon-* phalcon \
