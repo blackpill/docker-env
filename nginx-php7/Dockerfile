@@ -1,14 +1,23 @@
 FROM php:7.2-fpm
 #nginx
-ENV NGINX_VERSION 1.15.3~jessie
+ENV NGINX_VERSION 1.14.0-1~stretch
 
 #set timezone
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ADD sources.list    /etc/apt/sources.list
+RUN apt-get update \
+	&& apt-get -f install --no-install-recommends --no-install-suggests -y \
+						git \
+						vim \
+					        nfs-common \
+						gettext-base \
+                                                software-properties-common \
+                                                dirmngr \
+						gnupg
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-    && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+    && echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
     && apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
@@ -18,16 +27,14 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 						nginx-module-image-filter \
 						nginx-module-perl \
 						nginx-module-njs \
-						gettext-base \
-						git \
-                        libgearman-dev \
+	                                        libgearman-dev \
 						libmemcached-dev \
 						libmcrypt-dev \
 						libfreetype6-dev \
 						libjpeg62-turbo-dev \
-						libpng12-dev \
-						vim \
-						nfs-common \
+						libpng-dev \
+                                                zlib1g-dev \
+                                                libsasl2-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
@@ -48,24 +55,25 @@ ENV  NFS_DIR /wwwroot
 # Install PHP extensions
 #COPY memcached.tgz /home/memcached.tgz
 #COPY gearman.tgz /home/gearman.tgz
-COPY redis.tgz /home/redis.tgz
+#COPY redis.tgz /home/redis.tgz
 #COPY msgpack.tgz /home/msgpack.tgz
-COPY xdebug.tgz /home/xdebug.tgz
+#COPY xdebug.tgz /home/xdebug.tgz
 #COPY memcache.tgz /home/memcache.tgz
 #COPY xhprof.tgz /home/xhprof.tgz
 #COPY cphalcon.tgz /home/cphalcon.tgz
 
 RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include/ \
-        && docker-php-ext-install gd \
-		&& docker-php-ext-install bcmath \
-        && docker-php-ext-install zip \
-        && docker-php-ext-install mbstring \
-        && docker-php-ext-install mcrypt \
-        && docker-php-ext-install mysql \
-        && docker-php-ext-install mysqli \
-        && docker-php-ext-install pdo_mysql
-RUN pecl install /home/redis.tgz && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
-         && pecl install /home/xdebug.tgz && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
+        && docker-php-ext-install gd 
+RUN docker-php-ext-install bcmath 
+RUN docker-php-ext-install zip
+RUN docker-php-ext-install mbstring
+#RUN docker-php-ext-install mysqlnd
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo_mysql
+#        && docker-php-ext-install mcrypt \
+#        && docker-php-ext-install mysql \
+# RUN pecl install /home/redis.tgz && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini 
+#         && pecl install /home/xdebug.tgz && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
 # RUN pecl install /home/memcached.tgz && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/memcached.ini \
 #         && pecl install /home/gearman.tgz && echo "extension=gearman.so" > /usr/local/etc/php/conf.d/gearman.ini \
 #         && pecl install /home/redis.tgz && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
