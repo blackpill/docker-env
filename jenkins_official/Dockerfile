@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 
 ADD libapparmor.so.1.1.0 /usr/lib/x86_64-linux-gnu/libapparmor.so.1
 ADD libcgmanager.so.0.0.0 /usr/lib/x86_64-linux-gnu/libcgmanager.so.0
-ADD libdevmapper.so.1.02.1 /usr/lib/x86_64-linux-gnu/libdevmapper.so.1
+ADD libdevmapper.so.1.02.1 /usr/lib/x86_64-linux-gnu/libdevmapper.so.1.02.1
 ADD libgcrypt.so.11 /usr/lib/x86_64-linux-gnu/libgcrypt.so.11
 ADD libltdl.so.7.3.0 /usr/lib/x86_64-linux-gnu/libltdl.so.7
 ADD libnih.so.1.0.0 /usr/lib/x86_64-linux-gnu/libnih.so.1
