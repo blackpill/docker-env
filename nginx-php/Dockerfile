@@ -25,9 +25,10 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 						nginx-module-xslt \
 						nginx-module-geoip \
 						nginx-module-image-filter \
-						nginx-module-perl \
 						nginx-module-njs \
 						libfreetype6-dev \
+						zlib1g-dev \
+						libsasl2-dev \
                         libgearman-dev \
 						libmemcached-dev \
 						libmcrypt-dev \						
