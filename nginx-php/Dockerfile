@@ -12,12 +12,6 @@ RUN apt-get update \
 						ca-certificates \
 						gettext-base \
 						git \
-                        libgearman-dev \
-						libmemcached-dev \
-						libmcrypt-dev \
-						libfreetype6-dev \
-						libjpeg62-turbo-dev \
-						libpng12-dev \
 						vim \
 						nfs-common \
 						gnupg2
@@ -33,6 +27,12 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 						nginx-module-image-filter \
 						nginx-module-perl \
 						nginx-module-njs \
+						libfreetype6-dev \
+                        libgearman-dev \
+						libmemcached-dev \
+						libmcrypt-dev \						
+						libjpeg62-turbo-dev \
+						libpng12-dev \						
 	&& rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
