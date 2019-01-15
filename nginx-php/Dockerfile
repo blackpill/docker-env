@@ -109,5 +109,5 @@ VOLUME ["/localroot"]
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-ONBUILD ADD app.tar /wwwroot
+# ONBUILD ADD app.tar /wwwroot
 CMD ["nginx"]
