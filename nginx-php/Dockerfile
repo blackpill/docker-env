@@ -58,7 +58,7 @@ ENV  NFS_DIR /wwwroot
 #COPY gearman.tgz /home/gearman.tgz
 COPY redis.tgz /home/redis.tgz
 #COPY msgpack.tgz /home/msgpack.tgz
-COPY xdebug.tgz /home/xdebug.tgz
+#COPY xdebug.tgz /home/xdebug.tgz
 #COPY memcache.tgz /home/memcache.tgz
 #COPY xhprof.tgz /home/xhprof.tgz
 #COPY cphalcon.tgz /home/cphalcon.tgz
