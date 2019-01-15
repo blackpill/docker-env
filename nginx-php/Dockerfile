@@ -72,6 +72,10 @@ RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-freetype-dir=/usr/
         && docker-php-ext-install mysql \
         && docker-php-ext-install mysqli \
         && docker-php-ext-install pdo_mysql
+# PHP config
+ADD php.ini    /usr/local/etc/php/php.ini
+ADD php-fpm.conf    /usr/local/etc/php-fpm.conf
+		
 RUN pecl install /home/redis.tgz && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini
 #         && pecl install /home/xdebug.tgz && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
 # RUN pecl install /home/memcached.tgz && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/memcached.ini \
@@ -86,9 +90,7 @@ RUN pecl install /home/redis.tgz && echo "extension=redis.so" > /usr/local/etc/p
 #     && mv cphalcon-* phalcon \
 #     && cd phalcon/build && ./install && echo "extension=phalcon.so" > /usr/local/etc/php/conf.d/phalcon.ini
 
-# PHP config
-ADD php.ini    /usr/local/etc/php/php.ini
-ADD php-fpm.conf    /usr/local/etc/php-fpm.conf
+
 
 # Composer
 ADD composer.phar /usr/local/bin/composer
