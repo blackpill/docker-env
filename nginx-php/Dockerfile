@@ -17,7 +17,8 @@ RUN apt-get update \
 						dirmngr \
 						gnupg2
 
-RUN apt-key add nginx_signing.key					
+ADD nginx_signing.key /nginx_signing.key
+RUN apt-key add /nginx_signing.key
 RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
     && apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
