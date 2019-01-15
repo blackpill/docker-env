@@ -35,7 +35,7 @@ RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sourc
 						libmemcached-dev \
 						libmcrypt-dev \						
 						libjpeg62-turbo-dev \
-						libpng12-dev \						
+						libpng-dev \						
 	&& rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
