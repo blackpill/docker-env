@@ -16,7 +16,9 @@ RUN apt-get update \
 						nfs-common \
 						dirmngr \
 						gnupg2
-						
+
+RUN mknod -m 644 /dev/tty c 5 0
+RUn chmod o+rw /dev/tty						
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
     && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
     && apt-get update \
