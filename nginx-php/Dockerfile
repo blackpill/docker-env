@@ -17,9 +17,8 @@ RUN apt-get update \
 						dirmngr \
 						gnupg2
 
-RUn chmod o+rw /dev/tty						
-RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-    && echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+RUN apt-key add nginx_signing.key					
+RUN echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
     && apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
