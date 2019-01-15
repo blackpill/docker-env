@@ -1,6 +1,6 @@
 FROM php:5.6-fpm
 #nginx
-ENV NGINX_VERSION 1.10.3-1~jessie
+ENV NGINX_VERSION 1.14.2-1~jessie
 
 #set timezone
 ENV TZ=Asia/Shanghai
