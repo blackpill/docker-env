@@ -1,0 +1,51 @@
+input {
+  jdbc {
+    jdbc_driver_library => "/opt/mysql-connector-java-8.0.15/mysql-connector-java-8.0.15.jar"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true"
+    jdbc_user => "${DB_USERNAME}"
+    jdbc_password => "${DB_PASSWORD}"
+    schedule => "* * * * *"
+    statement => "SELECT info.id,info.type AS type_id,info.desc,info.is_stick,info.unit,info.price,info.wood_area,info.sell_area,info.desc,info.user_id,info.is_collage,info.view_cnt,info.video_src,info.area_type,info.update_t,info.update_time,info.create_t,info.contact_name,info.price_between,info.contact_mobile,info.contact_image,info.count AS wood_spec,info.sell_quantity AS wood_count,info.name AS wood_name,user.name AS username,user.mobile_phone,shop.status FROM stpc_wood_info info INNER JOIN stpc_user user ON user.user_id=info.user_id LEFT JOIN stpc_shop_info shop ON info.user_id=shop.uid WHERE ( info.is_delete = 0 ) AND ( info.is_lose = 0 ) AND ( (shop.is_delete = 0) OR (shop.is_delete is null) ) AND (info.update_t > :sql_last_value)"
+    use_column_value => true
+    tracking_column_type => "timestamp"
+    tracking_column => "update_t"
+    last_run_metadata_path => "syncpoint_table_shop"
+    type => 999887
+    clean_run => "false"
+  }
+  jdbc {
+    jdbc_driver_library => "/opt/mysql-connector-java-8.0.15/mysql-connector-java-8.0.15.jar"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&verifyServerCertificate=false&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true"
+    jdbc_user => "${DB_USERNAME}"
+    jdbc_password => "${DB_PASSWORD}"
+    schedule => "* * * * *"
+    statement => "SELECT info.id,info.order_no,info.type AS type_id,info.order_name AS wood_name,info.remark,info.spec,info.sell_area,info.user_id,info.wood_area,info.wood_type,info.view_cnt,info.create_t,info.update_time,info.update_t,info.contact_name,info.contact_phone,info.contact_img,member.image,user.name AS username,user.mobile_phone,shop.status FROM stpc_want_order_main info INNER JOIN stpc_user user ON user.user_id=info.user_id LEFT JOIN stpc_member_info member ON user.user_id=member.uid LEFT JOIN stpc_shop_info shop ON info.user_id=shop.uid WHERE ( info.is_delete = 0 ) AND ( info.is_lose = 0 ) AND ( (shop.is_delete = 0) OR (shop.is_delete is null) ) AND (info.update_t > :sql_last_value)" 
+    use_column_value => true
+    tracking_column_type => "timestamp"
+    tracking_column => "update_t"
+    last_run_metadata_path => "syncpoint_table_qg"
+    type => 999888
+    clean_run => "false"
+  }
+
+}
+
+output {
+	if[type]==999887 {
+		elasticsearch {
+			hosts => ["${ES_HOST}"]
+			index => "stpc_wood_info"
+			document_id => "%{id}"	    
+		}
+	}
+	if[type]==999888 {
+		elasticsearch {
+			hosts => ["${ES_HOST}"]
+			index => "stpc_want_order_main"
+			document_id => "%{id}"
+		}
+
+	}
+}
