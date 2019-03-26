@@ -12,10 +12,12 @@ RUN  chmod +x /*.sh
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-USER 1000
 ADD pipeline/ /usr/share/logstash/pipeline/
 ADD config/ /usr/share/logstash/config/
+RUN chmod ugo+rw -R /usr/share/logstash/pipeline/
+RUN chmod ugo+rw -R /usr/share/logstash/config/
+USER 1000
+
 ENV DB_HOST 114.215.192.224
 ENV DB_NAME zhenmuwang
 ENV DB_USERNAME jr1
