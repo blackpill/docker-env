@@ -1,4 +1,4 @@
-FROM logstash:6.6.1
+FROM logstash:6.6.2
 
 USER root
 RUN bin/logstash-plugin install logstash-input-jdbc
