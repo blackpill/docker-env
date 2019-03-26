@@ -1,4 +1,6 @@
 FROM logstash:6.6.1
+
+USER root
 RUN bin/logstash-plugin install logstash-input-jdbc
 RUN bin/logstash-plugin install logstash-output-elasticsearch
 RUN rm -f /usr/share/logstash/pipeline/logstash.conf
@@ -12,6 +14,7 @@ RUN  chmod +x /*.sh
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+USER 1000
 ENV DB_HOST 114.215.192.224
 ENV DB_NAME zhenmuwang
 ENV DB_USERNAME jr1
