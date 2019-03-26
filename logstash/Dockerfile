@@ -5,8 +5,7 @@ RUN bin/logstash-plugin install logstash-input-jdbc
 RUN bin/logstash-plugin install logstash-output-elasticsearch
 RUN rm -f /usr/share/logstash/pipeline/logstash.conf
 ADD mysql-connector-java-8.0.15.tar.gz /opt
-ADD pipeline/ /usr/share/logstash/pipeline/
-ADD config/ /usr/share/logstash/config/
+
 
 ADD  *.sh /
 RUN  chmod +x /*.sh
@@ -15,6 +14,8 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 USER 1000
+ADD pipeline/ /usr/share/logstash/pipeline/
+ADD config/ /usr/share/logstash/config/
 ENV DB_HOST 114.215.192.224
 ENV DB_NAME zhenmuwang
 ENV DB_USERNAME jr1
