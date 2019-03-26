@@ -16,6 +16,8 @@ ADD pipeline/ /usr/share/logstash/pipeline/
 ADD config/ /usr/share/logstash/config/
 RUN chmod ugo+rw -R /usr/share/logstash/pipeline/
 RUN chmod ugo+rw -R /usr/share/logstash/config/
+RUN yum update -y && yum install -y perl && \
+    yum clean all
 USER 1000
 
 ENV DB_HOST 114.215.192.224
