@@ -27,14 +27,15 @@ RUN apt-key adv --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8
 						nginx-module-image-filter \
 						nginx-module-perl \
 						nginx-module-njs \
-	                                        libgearman-dev \
+	                    libgearman-dev \
 						libmemcached-dev \
 						libmcrypt-dev \
 						libfreetype6-dev \
 						libjpeg62-turbo-dev \
 						libpng-dev \
-                                                zlib1g-dev \
-                                                libsasl2-dev \
+                        zlib1g-dev \
+                        libsasl2-dev \
+						wget libicu-dev libc-client-dev libkrb5-dev libxml2-dev libldap-dev libltdl-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
@@ -70,6 +71,29 @@ RUN docker-php-ext-install mbstring
 #RUN docker-php-ext-install mysqlnd
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install intl
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
+RUN docker-php-ext-install imap
+RUN docker-php-ext-install soap
+RUN docker-php-ext-install exif
+RUN docker-php-ext-install ldap
+
+RUN pecl install apcu
+RUN echo "extension = apcu.so" | tee -a /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
+
+RUN wget http://www.imagemagick.org/download/ImageMagick-7.0.8-60.tar.gz
+RUN tar zxvf ImageMagick.tar.gz
+RUN cd ImageMagick-7.0.8-60
+RUN ./configure --prefix=/usr/local/ImageMagick/ --enable-lzw --with-modules --with-quantum-depth=8?--enable-shared --disable-openmp
+RUN make && make install
+
+RUN wget http://pecl.php.net/get/imagick-3.4.4.tgz
+RUN tar zxvf imagick-3.4.4.tgz
+RUN cd imagick-3.4.4
+RUN phpize
+RUN ./configure --with-imagick=/usr/local/ImageMagick/
+RUN make && make install
+RUN echo "extension = imagick.so" | tee -a /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini
 #        && docker-php-ext-install mcrypt \
 #        && docker-php-ext-install mysql \
 # RUN pecl install /home/redis.tgz && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini 
