@@ -1,32 +1,37 @@
-FROM php:7.2-fpm
+FROM php:7.3-fpm-stretch
 #nginx
-ENV NGINX_VERSION 1.14.2-1~stretch
+ENV NGINX_VERSION 1.16.1-1~stretch
 
 #set timezone
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ADD sources.list    /etc/apt/sources.list
+ADD buster.list /etc/apt/sources.list.d/buster.list
 RUN apt-get update \
 	&& apt-get -f install --no-install-recommends --no-install-suggests -y \
 						git \
 						vim \
-					        nfs-common \
-						gettext-base \
-                                                software-properties-common \
-                                                dirmngr \
-						gnupg
-RUN apt-key adv --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-    && echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
-    && apt-get update \
-	&& apt-get install --no-install-recommends --no-install-suggests -y \
+					    nfs-common \
+						curl \
+						wget \
+						gnupg2 \
 						ca-certificates \
+						lsb-release
+RUN echo "deb http://nginx.org/packages/debian `lsb_release -cs` nginx" \
+    |tee /etc/apt/sources.list.d/nginx.list
+
+RUN curl -fsSL https://nginx.org/keys/nginx_signing.key | apt-key add -
+							
+RUN apt-get update \
+	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						nginx=${NGINX_VERSION} \
 						nginx-module-xslt \
 						nginx-module-geoip \
 						nginx-module-image-filter \
 						nginx-module-perl \
-						nginx-module-njs \
+						nginx-module-njs
+RUN apt-get install --no-install-recommends --no-install-suggests -y \						
 	                    libgearman-dev \
 						libmemcached-dev \
 						libmcrypt-dev \
@@ -35,7 +40,7 @@ RUN apt-key adv --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8
 						libpng-dev \
                         zlib1g-dev \
                         libsasl2-dev \
-						wget libicu-dev libc-client-dev libkrb5-dev libxml2-dev libldap-dev libltdl-dev \
+						libicu-dev libc-client-dev libkrb5-dev libxml2-dev libldap-dev libltdl-dev libzip-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
@@ -63,7 +68,7 @@ ENV  NFS_DIR /wwwroot
 #COPY xhprof.tgz /home/xhprof.tgz
 #COPY cphalcon.tgz /home/cphalcon.tgz
 
-RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include/ \
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include/ \
         && docker-php-ext-install gd 
 RUN docker-php-ext-install bcmath 
 RUN docker-php-ext-install zip
@@ -81,18 +86,19 @@ RUN docker-php-ext-install ldap
 RUN pecl install apcu
 RUN echo "extension = apcu.so" | tee -a /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
-RUN wget http://www.imagemagick.org/download/ImageMagick-7.0.8-60.tar.gz
-RUN tar zxvf ImageMagick.tar.gz
-RUN cd ImageMagick-7.0.8-60
-RUN ./configure --prefix=/usr/local/ImageMagick/ --enable-lzw --with-modules --with-quantum-depth=8?--enable-shared --disable-openmp
-RUN make && make install
+#RUN wget http://www.imagemagick.org/download/ImageMagick-7.0.8-60.tar.gz
+ADD ImageMagick-7.0.9-24.tar.gz /tmp
+#RUN tar zxvf ImageMagick.tar.gz
+RUN cd /tmp/ImageMagick-7.0.9-24 \
+    && ./configure --prefix=/usr/local/ImageMagick/ --enable-lzw --with-modules --with-quantum-depth=8 --enable-shared --disable-openmp \
+    && make && make install 
 
 RUN wget http://pecl.php.net/get/imagick-3.4.4.tgz
 RUN tar zxvf imagick-3.4.4.tgz
-RUN cd imagick-3.4.4
-RUN phpize
-RUN ./configure --with-imagick=/usr/local/ImageMagick/
-RUN make && make install
+RUN cd imagick-3.4.4 \
+    && phpize \
+    && ./configure --with-imagick=/usr/local/ImageMagick/ \
+    && make && make install
 RUN echo "extension = imagick.so" | tee -a /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini
 #        && docker-php-ext-install mcrypt \
 #        && docker-php-ext-install mysql \
