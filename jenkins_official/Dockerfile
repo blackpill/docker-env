@@ -22,6 +22,8 @@ EXPOSE 8080
 USER jenkins
 ADD entrypoint.sh /entrypoint.sh
 USER root
+ADD node-v12.16.1-linux-x64.tar.xz /usr/local
+RUN ln -s /usr/local/node-v12.16.1-linux-x64/bin/* /usr/bin
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 USER jenkins
