@@ -1,10 +1,13 @@
 FROM jenkins/jenkins
 ADD sources.list    /etc/apt/sources.list
+RUN rm -rf /etc/apt/sources.list.d
 USER root
 ADD docker /usr/bin/docker
 RUN apt-get update && apt-get install -y --allow-unauthenticated \
          docker \
          sudo \
+		 libdbus-1-dev \
+		 vim \
          && rm -r /var/lib/apt/lists/*
 
 ADD libapparmor.so.1.1.0 /usr/lib/x86_64-linux-gnu/libapparmor.so.1
