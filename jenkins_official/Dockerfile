@@ -2,7 +2,7 @@ FROM jenkins/jenkins
 ADD sources.list    /etc/apt/sources.list
 USER root
 ADD docker /usr/bin/docker
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --allow-unauthenticated \
          docker \
          sudo \
          && rm -r /var/lib/apt/lists/*
